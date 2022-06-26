@@ -39,6 +39,10 @@ DATE: 2022/06/26
             - 每周
             - 每月
             - 每年
+    - iCalendar
+        - 调出日程
+        - 调入日程
+        
     - API：(tentative)
         - enum class RepeatMode
             - none
@@ -60,10 +64,6 @@ DATE: 2022/06/26
             bool deleteRepeating
             )
             - Deletes event with eventID id and returns event details
-        
-    - iCalendar
-        - 调出日程
-        - 调入日程
 
 ## Features
 - Calendar Display
