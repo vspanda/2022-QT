@@ -1,3 +1,8 @@
+/**
+ * @vspanda
+ * cxsjCalendar MainWindow.h
+ */
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -13,8 +18,14 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
+#include <QGroupBox>
+
 #include <QLabel>
+#include <QLineEdit>
 #include <QDateEdit>
+
+#include <vector>
+#include <algorithm>
 
 class MainWindow : public QMainWindow
 {
@@ -26,6 +37,7 @@ public:
 
 private slots:
     // Date Selector
+    void selectedDateChanged();
 
 private:
 
@@ -43,20 +55,36 @@ private:
 
     // Date Selector
     void createDateSelector();
-    QHBoxLayout *dateSelect_layout;
+
+    QGroupBox *dateSelect_box;
     QDateEdit *dateSelect;
     QLabel *dateSelect_label;
 
+    // 农历
+    void createNL();
+
+    QGroupBox *NL_box;
+    QLabel *NL_label;
+    QLineEdit *NL_data;
+
     // 日程管理
     void createEventManager();
-    QVBoxLayout *events_layout;
-    QLabel *events_title;
+    QGroupBox *events_box;
+
+public:
+    void setNL(QString&& n)
+    {
+        nlrq = n;
+    }
+    QString getNL() const { return nlrq; };
+private:
+    // 放农历日期
+    QString nlrq;
 
     // 当年今日
+private:
     void createDNJR();
-    QVBoxLayout *dnjr_layout;
-    QLabel *dnjr_title;
-
+    QGroupBox *dnjr_box;
 
 };
 #endif // MAINWINDOW_H
