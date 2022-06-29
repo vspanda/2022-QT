@@ -10,6 +10,8 @@
 
 #include <QMenuBar>
 #include <QMenu>
+#include <QAction>
+#include <QActionGroup>
 
 #include <QWidget>
 #include <QCalendarWidget>
@@ -39,6 +41,19 @@ private slots:
     // Date Selector
     void selectedDateChanged();
 
+    // Menu
+    void setWERed();
+    void setWEBlu();
+    void setWEBlk();
+    void setWEClr(QColor col);
+
+    void setWDRed();
+    void setWDBlu();
+    void setWDBlk();
+    void setWDClr(QColor col);
+
+    void toggleGridMode();
+
 private:
 
     // Menu
@@ -66,10 +81,6 @@ private:
     QGroupBox *NL_box;
     QLabel *NL_label;
     QLineEdit *NL_data;
-
-    // 日程管理
-    void createEventManager();
-    QGroupBox *events_box;
 
 public:
     void setNL(QString&& n)

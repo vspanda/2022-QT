@@ -20,7 +20,6 @@ MainWindow::MainWindow(QWidget *parent)
     createCalendar();
     createDateSelector();
     createNL();
-    createEventManager();
     createDNJR();
 
 
@@ -30,7 +29,6 @@ MainWindow::MainWindow(QWidget *parent)
     sidebar = new QVBoxLayout;
     sidebar->addWidget(dateSelect_box);
     sidebar->addWidget(NL_box);
-    sidebar->addWidget(events_box);
     sidebar->addWidget(dnjr_box);
 
 
@@ -62,8 +60,110 @@ void MainWindow::createMenu()
     menubar = menuBar();
     settingsMenu = menubar->addMenu(tr("&Settings"));
 
+    // Week Start Date
+//    QMenu* weekstart = settingsMenu->addMenu(tr("Week Start Day"));
+
+    // Weekday Color
+    QMenu* weekday_col = settingsMenu->addMenu(tr("Weekday Color"));
+    QActionGroup* wdc = new QActionGroup(weekday_col);
+    QAction *wdc_red = wdc->addAction(tr("Red"));
+    weekday_col->addAction(wdc_red);
+    QAction *wdc_blk = wdc->addAction(tr("Black"));
+    weekday_col->addAction(wdc_blk);
+    QAction *wdc_blu = wdc->addAction(tr("Blue"));
+    weekday_col->addAction(wdc_blu);
+
+    for (auto* a : wdc->actions())
+        a->setCheckable(true);
+
+    wdc->setExclusionPolicy(QActionGroup::ExclusionPolicy::Exclusive);
+    wdc_blk->setChecked(true);
+
+    connect(wdc_red, &QAction::triggered,
+            this, &MainWindow::setWDRed);
+    connect(wdc_blu, &QAction::triggered,
+            this, &MainWindow::setWDBlu);
+    connect(wdc_blk, &QAction::triggered,
+            this, &MainWindow::setWDBlk);
+
+    // Weekend Color
+    QMenu* weekend_col = settingsMenu->addMenu(tr("Weekend Color"));
+    QActionGroup* wec = new QActionGroup(weekend_col);
+    QAction *wec_red = wec->addAction(tr("Red"));
+    weekend_col->addAction(wec_red);
+    QAction *wec_blk = wec->addAction(tr("Black"));
+    weekend_col->addAction(wec_blk);
+    QAction *wec_blu = wec->addAction(tr("Blue"));
+    weekend_col->addAction(wec_blu);
+
+    for (auto* a : wec->actions())
+        a->setCheckable(true);
+
+    wec->setExclusionPolicy(QActionGroup::ExclusionPolicy::Exclusive);
+    wec_red->setChecked(true);
+
+    connect(wec_red, &QAction::triggered,
+            this, &MainWindow::setWERed);
+    connect(wec_blu, &QAction::triggered,
+            this, &MainWindow::setWEBlu);
+    connect(wec_blk, &QAction::triggered,
+            this, &MainWindow::setWEBlk);
 
 
+    // Grid Mode
+    QAction* gridMode = settingsMenu->addAction(tr("Toggle Grid Mode"));
+
+    connect(gridMode, &QAction::triggered,
+            this, &MainWindow::toggleGridMode);
+}
+
+void MainWindow::toggleGridMode()
+{
+    calendar->setGridVisible(!calendar->isGridVisible());
+}
+void MainWindow::setWERed()
+{
+    setWEClr(QColor(Qt::red));
+}
+void MainWindow::setWEBlu()
+{
+    setWEClr(QColor(Qt::blue));
+}
+void MainWindow::setWEBlk()
+{
+    setWEClr(QColor(Qt::black));
+}
+void MainWindow::setWEClr(QColor col)
+{
+    QTextCharFormat format;
+
+    format.setForeground(qvariant_cast<QColor>(col));
+    calendar->setWeekdayTextFormat(Qt::Saturday, format);
+    calendar->setWeekdayTextFormat(Qt::Sunday, format);
+}
+
+void MainWindow::setWDRed()
+{
+    setWDClr(QColor(Qt::red));
+}
+void MainWindow::setWDBlu()
+{
+    setWDClr(QColor(Qt::blue));
+}
+void MainWindow::setWDBlk()
+{
+    setWDClr(QColor(Qt::black));
+}
+void MainWindow::setWDClr(QColor col)
+{
+    QTextCharFormat format;
+
+    format.setForeground(qvariant_cast<QColor>(col));
+    calendar->setWeekdayTextFormat(Qt::Monday, format);
+    calendar->setWeekdayTextFormat(Qt::Tuesday, format);
+    calendar->setWeekdayTextFormat(Qt::Wednesday, format);
+    calendar->setWeekdayTextFormat(Qt::Thursday, format);
+    calendar->setWeekdayTextFormat(Qt::Friday, format);
 }
 
 void MainWindow::createCalendar()
@@ -148,17 +248,6 @@ void MainWindow::createNL()
 
 }
 
-void MainWindow::createEventManager()
-{
-    events_box = new QGroupBox(tr("日程"));
-
-    QVBoxLayout *event_layout = new QVBoxLayout;
-
-    events_box->setLayout(event_layout);
-    events_box->setFixedHeight(300);
-
-}
-
 void MainWindow::createDNJR()
 {
     dnjr_box = new QGroupBox(tr("当年今日"));
@@ -189,13 +278,9 @@ MainWindow::~MainWindow()
     // DNJR
     delete dnjr_box;
 
-    // Events
-    delete events_box;
-
     // Calendar
     delete calendar;
     delete layout;
     delete sidebar;
 
 }
-
