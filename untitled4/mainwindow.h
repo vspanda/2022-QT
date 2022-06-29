@@ -39,7 +39,8 @@
 #include <QTextFrameFormat>
 
 #include <QString>
-
+#include <QRandomGenerator>
+#include <QTime>
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
