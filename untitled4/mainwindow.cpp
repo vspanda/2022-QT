@@ -201,7 +201,7 @@ void MainWindow::createDNJR()
     dnjr_box = new QGroupBox(tr("当年今日"));
     dnjr_data = new QTextEdit;
     dnjr_data->setReadOnly(true);
-
+    changeDNJR();
     connect(calendar,&QCalendarWidget::selectionChanged,this,&MainWindow::changeDNJR);
     connect(dateSelect, &QDateEdit::dateChanged,this,&MainWindow::changeDNJR);
 
