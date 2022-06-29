@@ -41,6 +41,7 @@
 #include <QTextFrameFormat>
 
 #include <QString>
+#include <QRandomGenerator>
 
 class MainWindow : public QMainWindow
 {
@@ -66,7 +67,7 @@ private slots:
     void setWDClr(QColor col);
 
     void toggleGridMode();
-    
+
 private:
 
     // Menu

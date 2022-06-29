@@ -303,7 +303,7 @@ void MainWindow::createDNJR()
     dnjr_box = new QGroupBox(tr("当年今日"));
     dnjr_data = new QTextEdit;
     dnjr_data->setReadOnly(true);
-
+    changeDNJR();
     connect(calendar,&QCalendarWidget::selectionChanged,this,&MainWindow::changeDNJR);
     connect(dateSelect, &QDateEdit::dateChanged,this,&MainWindow::changeDNJR);
 
@@ -314,7 +314,7 @@ void MainWindow::createDNJR()
 
 }
 void MainWindow::changeDNJR(){
-    QString path=":/new/prefix1/dnjr _mini.json";
+    QString path=":/new/prefix1/dnjr.json";
     QFile file(path);
     if(!file.open(QFile::ReadOnly)){
        setNL("error");
@@ -344,7 +344,10 @@ void MainWindow::changeDNJR(){
     QJsonParseError err;
     QJsonDocument Doc= QJsonDocument::fromJson(byteArr,&err);
     QJsonArray arr = Doc.array();
-    for(int i=0;i<arr.count();i++){
+
+    int i=QRandomGenerator::global()->bounded(0,30);
+    int j=QRandomGenerator::global()->bounded(7,13);
+    for(int i=0;i<arr.count();i=i+j){
         QJsonValue val=arr.at(i);
 
         if(val.type()==QJsonValue::Object){
@@ -396,7 +399,7 @@ MainWindow::~MainWindow()
 
     // DNJR
     delete dnjr_box;
-
+    delete dnjr_data;
     // Events
     delete events_box;
 
@@ -404,5 +407,4 @@ MainWindow::~MainWindow()
     delete calendar;
     delete layout;
     delete sidebar;
-
 }
