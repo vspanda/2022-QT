@@ -10,8 +10,6 @@
 
 #include <QMenuBar>
 #include <QMenu>
-#include <QAction>
-#include <QActionGroup>
 
 #include <QWidget>
 #include <QCalendarWidget>
@@ -25,9 +23,22 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QDateEdit>
-
+#include <QTextEdit>
 #include <vector>
 #include <algorithm>
+
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonParseError>
+#include <QFile>
+
+#include <QTextDocument>
+#include <QTextCursor>
+#include <QTextFrame>
+#include <QTextFrameFormat>
+
+#include <QString>
 
 class MainWindow : public QMainWindow
 {
@@ -40,19 +51,6 @@ public:
 private slots:
     // Date Selector
     void selectedDateChanged();
-
-    // Menu
-    void setWERed();
-    void setWEBlu();
-    void setWEBlk();
-    void setWEClr(QColor col);
-
-    void setWDRed();
-    void setWDBlu();
-    void setWDBlk();
-    void setWDClr(QColor col);
-
-    void toggleGridMode();
 
 private:
 
@@ -77,13 +75,17 @@ private:
 
     // 农历
     void createNL();
-
+    void changeNL();
     QGroupBox *NL_box;
     QLabel *NL_label;
     QLineEdit *NL_data;
 
+    // 日程管理
+    void createEventManager();
+    QGroupBox *events_box;
+
 public:
-    void setNL(QString&& n)
+    void setNL(QString n)
     {
         nlrq = n;
     }
@@ -95,7 +97,9 @@ private:
     // 当年今日
 private:
     void createDNJR();
+    void changeDNJR();
     QGroupBox *dnjr_box;
+    QTextEdit *dnjr_data;
 
 };
 #endif // MAINWINDOW_H
